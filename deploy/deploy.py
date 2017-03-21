@@ -6,5 +6,5 @@ from subprocess import call
 @hug.call("/deploy", ["POST"], versions=1)
 def docs():
     """Trigger a deployment of the application"""
-    call(["git pull"])
+    call(["git", "pull"])
     return {"status": "deployed"}
