@@ -6,6 +6,7 @@ from subprocess import check_call
 @hug.call("/deploy", ["POST"], versions=1)
 def docs():
     """Trigger a deployment of the application"""
+    check_call(["cd", "/home/Musilitar/MusilitarAPI"])
     check_call(["git", "pull"])
     check_call(["touch", "/var/www/www_musilitar_org_wsgi.py"])
     return {"status": "deployed"}
