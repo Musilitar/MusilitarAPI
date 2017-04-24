@@ -1,0 +1,55 @@
+:root {
+    /* Colors */
+    --color-primary-0: #7C838A;
+    --color-background: #D4D5D7;
+    --color-primary-2: #9CA1A5;
+    --color-primary-3: #5F6974;
+    --color-primary-4: #45525F;
+
+    /* Font */
+    --font-size-default: 10px;
+    --font-size-box: 20rem;
+
+    /* Dimensions */
+    --box-size: 25rem;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-background);
+    font-size: var(--font-size-default);
+}
+
+.boxes {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.box {
+    position: fixed;
+    width: var(--box-size);
+    height: var(--box-size);
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: white;
+    font-size: var(--font-size-box);
+    text-align: center;
+}
+
+.box--top {
+    top: calc(50% - var(--box-size));
+}
+
+.box--right {
+    left: calc(50% + var(--box-size));
+}
+
+.box--bottom {
+    top: calc(50% + var(--box-size));
+}
+
+.box--left {
+    left: calc(50% - var(--box-size));
+}
