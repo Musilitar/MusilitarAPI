@@ -11,4 +11,5 @@ hug.API(__name__).http.output_format = hug.output_format.pretty_json
 
 @hug.extend_api()
 def apis():
+    """Gather all APIs"""
     return [doc, deploy, serve]
