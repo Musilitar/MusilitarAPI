@@ -60,7 +60,7 @@ function traverseRight() {
 
 function traverseDown() {
     indexes[2] -= 1;
-    indexes[0] += 0;
+    indexes[0] += 1;
     drawValues();    
 }
 

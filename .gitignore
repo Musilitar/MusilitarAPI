@@ -3,3 +3,5 @@ __pycache__
 MusilitarAPI.db
 venv
 logs
+npm-debug.log
+node_modules

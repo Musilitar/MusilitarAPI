@@ -1,0 +1,26 @@
+{
+  "name": "array",
+  "version": "0.0.1",
+  "description": "4D array navigator",
+  "main": "app.js",
+  "scripts": {
+    "minify:js": "babili app.js > app.min.js",
+    "minify:css": "minify app.css",
+    "minify": "npm run minify:js & npm run minify:css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/Musilitar/MusilitarAPI"
+  },
+  "keywords": [
+    "array",
+    "4d",
+    "navigator"
+  ],
+  "author": "Lode Lesage",
+  "license": "ISC",
+  "devDependencies": {
+    "babili": "0.0.12",
+    "minifier": "^0.8.1"
+  }
+}
