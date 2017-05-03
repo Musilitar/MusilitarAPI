@@ -22,3 +22,10 @@ def array():
     path = os.path.join(os.path.dirname(__file__), "../../static/array/index.html")
     with open(path) as file:
         return file.read()
+
+@hug.get("/yesyes", output=hug.output_format.html)
+def yesyes():
+    """Serves the yesyes application"""
+    path = os.path.join(os.path.dirname(__file__), "../../static/yesyes/index.html")
+    with open(path) as file:
+        return file.read()

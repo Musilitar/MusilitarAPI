@@ -1,0 +1,29 @@
+{
+  "name": "yesyes",
+  "version": "0.0.1",
+  "description": "Nonogram generator/solver",
+  "main": "app.js",
+  "scripts": {
+    "minify:js": "babili js/app.js > app.min.js",
+    "minify:css": "minify css/app.css --output app.min.css",
+    "minify": "npm run minify:js & npm run minify:css",
+    "watch": "watch 'npm run minify' js css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Musilitar/MusilitarAPI"
+  },
+  "keywords": [
+    "nonogram",
+    "picross",
+    "solver",
+    "generator"
+  ],
+  "author": "Lode Lesage",
+  "license": "ISC",
+  "devDependencies": {
+    "babili": "latest",
+    "minifier": "latest",
+    "watch": "latest"
+  }
+}
