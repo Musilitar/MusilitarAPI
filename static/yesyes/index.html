@@ -2,10 +2,15 @@
     <head>
         <title>Yes Yes</title>
         <link rel="stylesheet" href="/static/yesyes/app.min.css">
+        <script src="https://unpkg.com/vue"></script>
         <script src="/static/yesyes/app.min.js"></script>
     </head>
     <body>
-        <div class="control-panel"></div>
-        <div class="board"></div>
+        <div id="control-panel" class="control-panel"></div>
+        <div id="board" class="board">
+            <template v-for="size in boardSize">
+                <div>+</div>
+            </template>
+        </div>
     </body>
 </html>

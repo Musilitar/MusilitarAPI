@@ -16,13 +16,6 @@ def home():
     with open(path) as file:
         return file.read()
 
-@hug.get("/array", output=hug.output_format.html)
-def array():
-    """Serves the array application"""
-    path = os.path.join(os.path.dirname(__file__), "../../static/array/index.html")
-    with open(path) as file:
-        return file.read()
-
 @hug.get("/yesyes", output=hug.output_format.html)
 def yesyes():
     """Serves the yesyes application"""

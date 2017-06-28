@@ -16,11 +16,11 @@
     --top-panel: 0;
     --left-panel: 0;
     --width-panel: 100%;
-    --height-panel: 5vh;
-    --top-board: calc(5vh + ((100% - 85vh) / 2));
-    --right-board: calc((100% - 80vh) / 2);
-    --width-board: 80vh;
-    --height-board: 80vh;
+    --height-panel: 7.5%;
+    --top-board: calc(7.5% + ((92.5% - 80vmin) / 2));
+    --right-board: calc((100% - 80vmin) / 2);
+    --width-board: 80vmin;
+    --height-board: 80vmin;
 
     /* Padding */
     --padding-default: 2rem;
