@@ -6,11 +6,28 @@
         <script src="/static/yesyes/app.min.js"></script>
     </head>
     <body>
-        <div id="control-panel" class="control-panel"></div>
-        <div id="board" class="board">
-            <template v-for="size in boardSize">
-                <div>+</div>
-            </template>
+        <template id="dropdown">
+            <div>
+                <div v-on:click="toggleOpen">{{ model }}</div>
+                <div v-if="open">
+                    <template v-for="option in options">
+                        <div v-on:click="selectOption(option)">{{ option }}</div>
+                    </template>
+                </div>
+            </div>
+        </template>
+
+        <div id="app">
+            <div class="control-panel">
+                <div class="control-panel-size">
+                    <dropdown v-bind:model="boardSize" v-bind:options="availableSizes" v-on:option-selected="onSizeSelected">
+                </div>
+            </div>
+            <div class="board">
+                <template v-for="size in boardSize">
+                    <div>+</div>
+                </template>
+            </div>
         </div>
     </body>
 </html>
