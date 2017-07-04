@@ -1,4 +1,5 @@
-:root {
+:root 
+{
     /* Colors */
     --color-dark-primary: #455A64;
     --color-default-primary: #607D8B;
@@ -11,6 +12,7 @@
 
     /* Font */
     --font-size-default: 10px;
+    --font-size-input: 2rem;
 
     /* Dimensions */
     --top-panel: 0;
@@ -24,9 +26,13 @@
 
     /* Padding */
     --padding-default: 2rem;
+    --padding-input: 1rem;
 
     /* Margin */
     --margin-default: 2rem;
+
+    /* Border */
+    --border-width-default: 2px;
 
     width: 100vw;
     height: 100vh;
@@ -34,7 +40,32 @@
     font-size: var(--font-size-default);
 }
 
-.control-panel {
+/* COMPONENTS */
+/* COMPONENTS */
+/* COMPONENTS */
+.dropdown-container
+{
+    width: 4rem;
+}
+
+.dropdown-model 
+{
+    cursor: pointer;
+    padding: var(--padding-input);
+}
+
+.dropdown-option 
+{
+    background-color: var(--color-text-primary);
+    border: var(--border-width-default) solid var(--color-light-primary);
+    padding: var(--padding-input);
+}
+
+/* CONTENT */
+/* CONTENT */
+/* CONTENT */
+.control-panel 
+{
     position: fixed;
     top: var(--top-panel);
     left: var(--left-panel);
@@ -43,7 +74,8 @@
     background-color: var(--color-text-primary);
 }
 
-.board {
+.board 
+{
     position: fixed;
     top: var(--top-board);
     right: var(--right-board);
@@ -51,4 +83,9 @@
     height: var(--height-board);
     margin: 0 auto;
     background-color: var(--color-text-primary);
+}
+
+.input 
+{
+    font-size: var(--font-size-input);
 }

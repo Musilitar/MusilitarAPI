@@ -7,12 +7,10 @@
     </head>
     <body>
         <template id="dropdown">
-            <div>
-                <div v-on:click="toggleOpen">{{ model }}</div>
-                <div v-if="open">
-                    <template v-for="option in options">
-                        <div v-on:click="selectOption(option)">{{ option }}</div>
-                    </template>
+            <div class="dropdown-container">
+                <div class="dropdown-model" v-on:click="toggleOpen" v-on:blur="close">{{ model }}</div>
+                <div class="dropdown-options" v-if="open">
+                    <div class="dropdown-option" v-for="option in options" v-on:click="selectOption(option)">{{ option }}</div>
                 </div>
             </div>
         </template>
@@ -20,13 +18,11 @@
         <div id="app">
             <div class="control-panel">
                 <div class="control-panel-size">
-                    <dropdown v-bind:model="boardSize" v-bind:options="availableSizes" v-on:option-selected="onSizeSelected">
+                    <dropdown class="input" v-bind:model="boardSize" v-bind:options="availableSizes" v-on:option-selected="onSizeSelected">
                 </div>
             </div>
             <div class="board">
-                <template v-for="size in boardSize">
-                    <div>+</div>
-                </template>
+                <div v-for="size in boardSize">+</div>
             </div>
         </div>
     </body>

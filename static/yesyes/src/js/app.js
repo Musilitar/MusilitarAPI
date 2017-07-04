@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", function()
             toggleOpen: function()
             {
                 this.open = !this.open;
+            },
+            close: function()
+            {
+                this.open = false;
             }
         }
     });
