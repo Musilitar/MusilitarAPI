@@ -34,10 +34,22 @@
     /* Border */
     --border-width-default: 2px;
 
+    /* Icons */
+    --icon-size-default: 2.5rem;
+
     width: 100vw;
     height: 100vh;
     background-color: var(--color-light-primary);
     font-size: var(--font-size-default);
+}
+
+/* GENERAL */
+/* GENERAL */
+/* GENERAL */
+.icon
+{
+    width: var(--icon-size-default);
+    height: var(--icon-size-default);
 }
 
 /* COMPONENTS */
