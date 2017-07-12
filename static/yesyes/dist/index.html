@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>Yes Yes</title>
@@ -6,7 +7,7 @@
         <script src="/static/yesyes/dist/app.js"></script>
     </head>
     <body>
-        <template id="dropdown">
+        <script type="text/x-template" id="dropdown">
             <div class="dropdown-container">
                 <div class="dropdown-model" v-on:click="toggleOpen" v-on:blur="close">
                     <span>{{ model }}</span>
@@ -17,12 +18,12 @@
                     <div class="dropdown-option" v-for="option in options" v-on:click="selectOption(option)">{{ option }}</div>
                 </div>
             </div>
-        </template>
+        </script>
 
         <div id="app">
             <div class="control-panel">
                 <div class="control-panel-size">
-                    <dropdown class="input" v-bind:model="boardSize" v-bind:options="availableSizes" v-on:option-selected="onSizeSelected">
+                    <dropdown class="input" v-bind:model="boardSize" v-bind:options="availableSizes" v-on:option-selected="onSizeSelected"></dropdown>
                 </div>
             </div>
             <div class="board">
