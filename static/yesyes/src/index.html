@@ -7,28 +7,6 @@
         <script src="/static/yesyes/dist/app.js"></script>
     </head>
     <body>
-        <script type="text/x-template" id="dropdown">
-            <div class="dropdown-container">
-                <div class="dropdown-model" v-on:click="toggleOpen" v-on:blur="close">
-                    <span>{{ model }}</span>
-                    <svg v-if="open" class="icon"><use xlink:href="/static/yesyes/dist/icons.svg#collapse"></use></svg>
-                    <svg v-else class="icon"><use xlink:href="/static/yesyes/dist/icons.svg#expand"></use></svg>
-                </div>
-                <div class="dropdown-options" v-if="open">
-                    <div class="dropdown-option" v-for="option in options" v-on:click="selectOption(option)">{{ option }}</div>
-                </div>
-            </div>
-        </script>
-
-        <div id="app">
-            <div class="control-panel">
-                <div class="control-panel-size">
-                    <dropdown class="input" v-bind:model="boardSize" v-bind:options="availableSizes" v-on:option-selected="onSizeSelected"></dropdown>
-                </div>
-            </div>
-            <div class="board">
-                <div v-for="size in boardSize">+</div>
-            </div>
-        </div>
+        <app></app>
     </body>
 </html>

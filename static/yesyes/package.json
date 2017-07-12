@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Nonogram generator/solver",
   "main": "app.js",
-  "scripts": {
+  "scripts": 
+  {
     "minify:js": "babili src/js/app.js > dist/app.js",
     "minify:css": "minify src/css/app.css --output dist/app.css",
     "minify": "npm run minify:js & npm run minify:css",
@@ -22,11 +23,13 @@
     "build:production": "npm run clean && npm run copy:html && npm run copy:icons && npm run vendor:production && npm run minify",
     "watch": "watch 'npm run copy' src/"
   },
-  "repository": {
+  "repository": 
+  {
     "type": "git",
     "url": "https://github.com/Musilitar/MusilitarAPI"
   },
-  "keywords": [
+  "keywords": 
+  [
     "nonogram",
     "picross",
     "solver",
@@ -34,10 +37,18 @@
   ],
   "author": "Lode Lesage",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": 
+  {
+    "vue": "2.3.3"
+  },
+  "devDependencies": 
+  {
     "babili": "0.1.4",
+    "cross-env": "3.0.0",
     "minifier": "0.8.1",
     "svg-sprite-generator": "0.0.7",
-    "watch": "1.0.2"
+    "vue-loader": "12.1.0",
+    "watch": "1.0.2",
+    "webpack": "2.6.1"
   }
 }
