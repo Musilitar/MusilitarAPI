@@ -52,27 +52,6 @@
     height: var(--icon-size-default);
 }
 
-/* COMPONENTS */
-/* COMPONENTS */
-/* COMPONENTS */
-.dropdown-container
-{
-    width: 4rem;
-}
-
-.dropdown-model 
-{
-    cursor: pointer;
-    padding: var(--padding-input);
-}
-
-.dropdown-option 
-{
-    background-color: var(--color-text-primary);
-    border: var(--border-width-default) solid var(--color-light-primary);
-    padding: var(--padding-input);
-}
-
 /* CONTENT */
 /* CONTENT */
 /* CONTENT */

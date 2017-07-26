@@ -1,2 +1,42 @@
-"use strict";document.addEventListener("DOMContentLoaded",function(){Vue.component("dropdown",{template:"#dropdown",props:["model","options"],data:function(){return{open:!1}},methods:{selectOption:function(b){this.$emit("option-selected",b)},toggleOpen:function(){this.open=!this.open},close:function(){this.open=!1}}});new Vue({el:"#app",data:{availableSizes:[8,10,12,14,16],boardSize:10},methods:{onSizeSelected:function(b){this.boardSize=b}}})});
+"use strict";
 
+let boardSize = 10;
+let boardSizeStep = 2;
+let boardSizeMin = 8;
+let boardSizeMax = 16;
+let boardSizeDisplay;
+
+function initialize()
+{
+    boardSizeDisplay = document.querySelector("#boardSize");
+    
+    updateElementWithValue(boardSizeDisplay, boardSize);
+}
+
+function updateElementWithValue(element, value)
+{
+    element.innerHTML = value;
+}
+
+function increaseBoardSize()
+{
+    if(boardSize + boardSizeStep <= boardSizeMax) 
+    {
+        boardSize += boardSizeStep;
+        updateElementWithValue(boardSizeDisplay, boardSize);
+    }
+}
+
+function decreaseBoardSize()
+{
+    if(boardSize - boardSizeStep >= boardSizeMin) 
+    {
+        boardSize -= boardSizeStep;
+        updateElementWithValue(boardSizeDisplay, boardSize);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function()
+{
+    initialize();
+});

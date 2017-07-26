@@ -5,22 +5,19 @@
   "main": "app.js",
   "scripts": 
   {
-    "minify:js": "babili src/js/app.js > dist/app.js",
-    "minify:css": "minify src/css/app.css --output dist/app.css",
+    "minify:js": "babili src/app/app.js > dist/app.js",
+    "minify:css": "minify src/assets/css/app.css --output dist/app.css",
     "minify": "npm run minify:js & npm run minify:css",
-    "vendor:dev": "cp src/js/vendor/vue.js dist/vendor/",
-    "vendor:production": "cp src/js/vendor/vue.min.js dist/vendor/vue.js",
-    "svg:generate": "svg-sprite-generate -d src/svg -o src/sprite/icons.svg",
-    "copy:js": "cp src/js/app.js dist/",
-    "copy:css": "cp src/css/app.css dist/",
+    "svg:generate": "svg-sprite-generate -d src/assets/svg -o src/sprite/icons.svg",
+    "copy:js": "cp src/app/app.js dist/",
+    "copy:css": "cp src/assets/css/app.css dist/",
     "copy:html": "cp src/index.html dist/",
-    "copy:icons": "cp src/sprite/icons.svg dist/",
+    "copy:icons": "cp src/assets/sprite/icons.svg dist/",
     "copy": "npm run copy:js && npm run copy:css && npm run copy:html && npm run copy:icons",
     "remove:dist": "rm -rf dist/*",
-    "create:vendor": "mkdir dist/vendor",
-    "clean": "npm run remove:dist && npm run create:vendor",
-    "build:dev": "npm run clean && npm run copy && npm run vendor:dev",
-    "build:production": "npm run clean && npm run copy:html && npm run copy:icons && npm run vendor:production && npm run minify",
+    "clean": "npm run remove:dist",
+    "build:dev": "npm run clean && npm run copy",
+    "build:production": "npm run clean && npm run copy:html && npm run copy:icons && npm run minify",
     "watch": "watch 'npm run copy' src/"
   },
   "repository": 
@@ -37,18 +34,11 @@
   ],
   "author": "Lode Lesage",
   "license": "ISC",
-  "dependencies": 
-  {
-    "vue": "2.3.3"
-  },
   "devDependencies": 
   {
     "babili": "0.1.4",
-    "cross-env": "3.0.0",
     "minifier": "0.8.1",
     "svg-sprite-generator": "0.0.7",
-    "vue-loader": "12.1.0",
-    "watch": "1.0.2",
-    "webpack": "2.6.1"
+    "watch": "1.0.2"
   }
 }

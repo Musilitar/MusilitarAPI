@@ -3,10 +3,20 @@
     <head>
         <title>Yes Yes</title>
         <link rel="stylesheet" href="/static/yesyes/dist/app.css">
-        <script src="/static/yesyes/dist/vendor/vue.js"></script>
         <script src="/static/yesyes/dist/app.js"></script>
     </head>
     <body>
-        <app></app>
+        <div class="control-panel">
+            <div class="control-panel-size">
+                <svg class="icon" onclick="decreaseBoardSize()">
+                    <use xlink:href="/static/yesyes/dist/icons.svg#minus"></use>
+                </svg>
+                <span id="boardSize" class="input"></span>
+                <svg class="icon" onclick="increaseBoardSize()">
+                    <use xlink:href="/static/yesyes/dist/icons.svg#plus"></use>
+                </svg>
+            </div>
+        </div>
+        <div class="board"></div>
     </body>
 </html>
