@@ -16,6 +16,7 @@
     "copy": "npm run copy:js && npm run copy:css && npm run copy:html && npm run copy:icons",
     "remove:dist": "rm -rf dist/*",
     "clean": "npm run remove:dist",
+    "elm:make": "elm-make src/app/App.elm --output=dist/app.js",
     "build:dev": "npm run clean && npm run copy",
     "build:production": "npm run clean && npm run copy:html && npm run copy:icons && npm run minify",
     "watch": "watch 'npm run copy' src/"
@@ -36,6 +37,7 @@
   "license": "ISC",
   "devDependencies": 
   {
+    "elm": "0.18.0",
     "babili": "0.1.4",
     "minifier": "0.8.1",
     "svg-sprite-generator": "0.0.7",

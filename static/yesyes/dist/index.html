@@ -3,10 +3,9 @@
     <head>
         <title>Yes Yes</title>
         <link rel="stylesheet" href="/static/yesyes/dist/app.css">
-        <script src="/static/yesyes/dist/app.js"></script>
     </head>
     <body>
-        <div class="control-panel">
+        <!--<div class="control-panel">
             <div class="control-panel-size">
                 <svg class="icon" onclick="decreaseBoardSize()">
                     <use xlink:href="/static/yesyes/dist/icons.svg#minus"></use>
@@ -17,6 +16,9 @@
                 </svg>
             </div>
         </div>
-        <div id="board" class="board"></div>
+        <div id="board" class="board"></div>-->
+        <div id="app"></div>
+        <script src="/static/yesyes/dist/app.js"></script>
+        <script>Elm.App.embed(document.getElementById("app"));</script>
     </body>
 </html>
