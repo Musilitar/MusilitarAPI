@@ -13,13 +13,13 @@
     "copy:css": "cp src/assets/css/app.css dist/",
     "copy:html": "cp src/index.html dist/",
     "copy:icons": "cp src/assets/sprite/icons.svg dist/",
-    "copy": "npm run copy:js && npm run copy:css && npm run copy:html && npm run copy:icons",
+    "copy": "npm run copy:css && npm run copy:html && npm run copy:icons",
     "remove:dist": "rm -rf dist/*",
     "clean": "npm run remove:dist",
     "elm:make": "elm-make src/app/App.elm --output=dist/app.js",
-    "build:dev": "npm run clean && npm run copy",
+    "build:dev": "npm run elm:make && npm run copy",
     "build:production": "npm run clean && npm run copy:html && npm run copy:icons && npm run minify",
-    "watch": "watch 'npm run copy' src/"
+    "watch": "watch 'npm run build:dev' src/"
   },
   "repository": 
   {

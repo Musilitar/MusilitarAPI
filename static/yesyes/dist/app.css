@@ -57,6 +57,9 @@
 /* CONTENT */
 .control-panel 
 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     top: var(--top-panel);
     left: var(--left-panel);
@@ -65,8 +68,16 @@
     background-color: var(--color-text-primary);
 }
 
+.control-panel-size
+{
+    display: inline-flex;
+}
+
 .board 
 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     position: fixed;
     top: var(--top-board);
     right: var(--right-board);
@@ -74,6 +85,13 @@
     height: var(--height-board);
     margin: 0 auto;
     background-color: var(--color-text-primary);
+}
+
+.board-point
+{
+    flex: 1;
+    flex-basis: 11%;
+    border: var(--border-width-default) solid var(--color-primary-text);
 }
 
 .input 

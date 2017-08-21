@@ -7,7 +7,7 @@ import Svg.Attributes exposing (class, xlinkHref)
 
 type alias IconName = String
 
-icon : IconName -> message -> Html message
-icon iconName message = 
+clickableIcon : IconName -> message -> Html message
+clickableIcon iconName message = 
     svg [class "icon", onClick message] 
         [use [xlinkHref ("/static/yesyes/dist/icons.svg#" ++ iconName)] []]
