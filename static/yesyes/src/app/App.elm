@@ -1,5 +1,6 @@
 module App exposing (..)
 
+import Tuple exposing (first, second)
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
@@ -11,12 +12,9 @@ main =
   Html.beginnerProgram { model = model, view = view, update = update }
 
 -- MODEL
-type alias Model = { boardSize: Int }
 type alias BoardPoint = { x: Int, y: Int, isPoint: Bool, isClicked: Bool }
 type alias Board = List BoardPoint
-
-model: Model
-model = { boardSize = 8 }
+type alias Model = { boardSize: Int, board: Board }
 
 board: Board
 board = 
@@ -87,8 +85,11 @@ board =
     { x = 7, y = 7, isPoint = False, isClicked = False }
   ]
 
+model: Model
+model = { boardSize = 8, board = board }
+
 -- UPDATE
-type Message = Increment | Decrement | Guess
+type Message = Increment | Decrement | Guess (Int, Int)
 
 update: Message -> Model -> Model
 update message model =
@@ -99,8 +100,15 @@ update message model =
     Decrement ->
       { model | boardSize = model.boardSize - 1 }
 
-    Guess ->
-      model
+    Guess coordinates ->
+      { model | board = (List.map (updateBoardPointClicked coordinates) model.board)}
+
+updateBoardPointClicked: (Int, Int) -> BoardPoint -> BoardPoint
+updateBoardPointClicked coordinates boardPoint =
+  if first coordinates == boardPoint.x && second coordinates == boardPoint.y then
+    { boardPoint | isClicked = True }
+  else
+    boardPoint
 
 -- VIEW
 view: Model -> Html Message
@@ -116,7 +124,7 @@ view model =
           clickableIcon "plus" Increment
         ]
     ],
-    boardView board
+    boardView model.board
   ]
 
 boardView: Board -> Html Message
@@ -125,4 +133,15 @@ boardView board =
 
 boardPointView: BoardPoint -> Html Message
 boardPointView boardPoint = 
-  div [class "board-point", onClick Guess] [text ((toString boardPoint.x) ++ ", " ++ (toString boardPoint.y))]
+  div 
+  [
+    classList 
+    [
+      ("board-point", True),
+      ("board-point--pristine", not boardPoint.isClicked),
+      ("board-point--correct", boardPoint.isClicked && boardPoint.isPoint),
+      ("board-point--incorrect", boardPoint.isClicked && not boardPoint.isPoint)
+    ],
+    onClick (Guess (boardPoint.x, boardPoint.y))
+  ] 
+  [text ((toString boardPoint.x) ++ ", " ++ (toString boardPoint.y))]

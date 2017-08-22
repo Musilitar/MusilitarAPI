@@ -16,10 +16,11 @@
     "copy": "npm run copy:css && npm run copy:html && npm run copy:icons",
     "remove:dist": "rm -rf dist/*",
     "clean": "npm run remove:dist",
-    "elm:make": "elm-make src/app/App.elm --output=dist/app.js",
-    "build:dev": "npm run elm:make && npm run copy",
-    "build:production": "npm run clean && npm run copy:html && npm run copy:icons && npm run minify",
-    "watch": "watch 'npm run build:dev' src/"
+    "elm:development": "elm-make src/app/App.elm --output=dist/app.js --debug",
+    "elm:production": "elm-make src/app/App.elm --output=dist/app.js",
+    "build:development": "npm run elm:development && npm run copy",
+    "build:production": "npm run elm:production && npm run copy",
+    "watch": "watch 'npm run build:development' src/"
   },
   "repository": 
   {

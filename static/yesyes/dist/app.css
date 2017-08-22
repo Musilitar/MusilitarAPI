@@ -90,8 +90,18 @@
 .board-point
 {
     flex: 1;
-    flex-basis: 11%;
+    flex-basis: calc(12.5% - (2 * var(--border-width-default)));
     border: var(--border-width-default) solid var(--color-primary-text);
+}
+
+.board-point--correct
+{
+    background-color: var(--color-primary-text);
+}
+
+.board-point--incorrect
+{
+    background-color: var(--color-accent);
 }
 
 .input 
