@@ -1,8 +1,9 @@
 module App exposing (..)
 
 import Tuple exposing (first, second)
+import List exposing (map, filter, length)
 import Html exposing (Html, button, div, text)
-import Html.Attributes exposing (..)
+import Html.Attributes exposing (class, classList)
 import Html.Events exposing (onClick)
 
 import Icon exposing (clickableIcon)
@@ -15,6 +16,8 @@ main =
 type alias BoardPoint = { x: Int, y: Int, isPoint: Bool, isClicked: Bool }
 type alias Board = List BoardPoint
 type alias Model = { boardSize: Int, board: Board }
+
+type BoardHint = Horizontal | Vertical
 
 board: Board
 board = 
@@ -88,6 +91,47 @@ board =
 model: Model
 model = { boardSize = 8, board = board }
 
+determineBoardSize: Board -> Int
+determineBoardSize board = 
+  board
+    |> length
+    |> toFloat
+    |> sqrt
+    |> round
+
+isNthRow: Int -> BoardPoint -> Bool
+isNthRow n boardPoint =
+  n == boardPoint.y
+
+isNthColumn: Int -> BoardPoint -> Bool
+isNthColumn n boardPoint =
+  n == boardPoint.x
+
+boardPointsByRowNumber: Board -> Int -> List BoardPoint
+boardPointsByRowNumber board rowNumber  =
+  filter (isNthRow rowNumber) board
+
+boardPointsByColumnNumber: Board -> Int -> List BoardPoint
+boardPointsByColumnNumber board columnNumber =
+  filter (isNthColumn columnNumber) board
+
+boardPointsToBoardHint: List BoardPoint -> Int
+boardPointsToBoardHint boardPoints =
+  length (filter (\n -> n.isPoint == True) boardPoints)
+
+findBoardHintsByHintType: BoardHint -> Board -> List Int
+findBoardHintsByHintType hintType board = 
+  let
+    boardSize = determineBoardSize board
+  in
+    case hintType of
+      Horizontal ->
+        map (boardPointsByRowNumber board) (List.range 0 (boardSize - 1))
+          |> map boardPointsToBoardHint
+      Vertical ->
+        map (boardPointsByColumnNumber board) (List.range 0 (boardSize - 1))
+          |> map boardPointsToBoardHint
+
 -- UPDATE
 type Message = Increment | Decrement | Guess (Int, Int)
 
@@ -101,7 +145,7 @@ update message model =
       { model | boardSize = model.boardSize - 1 }
 
     Guess coordinates ->
-      { model | board = (List.map (updateBoardPointClicked coordinates) model.board)}
+      { model | board = (map (updateBoardPointClicked coordinates) model.board)}
 
 updateBoardPointClicked: (Int, Int) -> BoardPoint -> BoardPoint
 updateBoardPointClicked coordinates boardPoint =
@@ -124,12 +168,14 @@ view model =
           clickableIcon "plus" Increment
         ]
     ],
-    boardView model.board
+    boardView model.board,
+    boardHintView (findBoardHintsByHintType Horizontal model.board),
+    boardHintView (findBoardHintsByHintType Vertical model.board)
   ]
 
 boardView: Board -> Html Message
 boardView board =
-  div [class "board"] (List.map boardPointView board)
+  div [class "board"] (map boardPointView board)
 
 boardPointView: BoardPoint -> Html Message
 boardPointView boardPoint = 
@@ -145,3 +191,11 @@ boardPointView boardPoint =
     onClick (Guess (boardPoint.x, boardPoint.y))
   ] 
   [text ((toString boardPoint.x) ++ ", " ++ (toString boardPoint.y))]
+
+boardHintView: List Int -> Html Message
+boardHintView boardHints =
+  div [] (map hintView (map (\n -> toString n) boardHints))
+
+hintView: String -> Html Message
+hintView hint =
+  div [] [text hint]

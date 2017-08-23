@@ -12785,6 +12785,30 @@ var _musilitar$musilitarapi$Icon$clickableIcon = F2(
 			});
 	});
 
+var _musilitar$musilitarapi$App$hintView = function (hint) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(hint),
+			_1: {ctor: '[]'}
+		});
+};
+var _musilitar$musilitarapi$App$boardHintView = function (boardHints) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$map,
+			_musilitar$musilitarapi$App$hintView,
+			A2(
+				_elm_lang$core$List$map,
+				function (n) {
+					return _elm_lang$core$Basics$toString(n);
+				},
+				boardHints)));
+};
 var _musilitar$musilitarapi$App$updateBoardPointClicked = F2(
 	function (coordinates, boardPoint) {
 		return (_elm_lang$core$Native_Utils.eq(
@@ -12816,6 +12840,65 @@ var _musilitar$musilitarapi$App$update = F2(
 							_musilitar$musilitarapi$App$updateBoardPointClicked(_p0._0),
 							model.board)
 					});
+		}
+	});
+var _musilitar$musilitarapi$App$boardPointsToBoardHint = function (boardPoints) {
+	return _elm_lang$core$List$length(
+		A2(
+			_elm_lang$core$List$filter,
+			function (n) {
+				return _elm_lang$core$Native_Utils.eq(n.isPoint, true);
+			},
+			boardPoints));
+};
+var _musilitar$musilitarapi$App$isNthColumn = F2(
+	function (n, boardPoint) {
+		return _elm_lang$core$Native_Utils.eq(n, boardPoint.x);
+	});
+var _musilitar$musilitarapi$App$boardPointsByColumnNumber = F2(
+	function (board, columnNumber) {
+		return A2(
+			_elm_lang$core$List$filter,
+			_musilitar$musilitarapi$App$isNthColumn(columnNumber),
+			board);
+	});
+var _musilitar$musilitarapi$App$isNthRow = F2(
+	function (n, boardPoint) {
+		return _elm_lang$core$Native_Utils.eq(n, boardPoint.y);
+	});
+var _musilitar$musilitarapi$App$boardPointsByRowNumber = F2(
+	function (board, rowNumber) {
+		return A2(
+			_elm_lang$core$List$filter,
+			_musilitar$musilitarapi$App$isNthRow(rowNumber),
+			board);
+	});
+var _musilitar$musilitarapi$App$determineBoardSize = function (board) {
+	return _elm_lang$core$Basics$round(
+		_elm_lang$core$Basics$sqrt(
+			_elm_lang$core$Basics$toFloat(
+				_elm_lang$core$List$length(board))));
+};
+var _musilitar$musilitarapi$App$findBoardHintsByHintType = F2(
+	function (hintType, board) {
+		var boardSize = _musilitar$musilitarapi$App$determineBoardSize(board);
+		var _p1 = hintType;
+		if (_p1.ctor === 'Horizontal') {
+			return A2(
+				_elm_lang$core$List$map,
+				_musilitar$musilitarapi$App$boardPointsToBoardHint,
+				A2(
+					_elm_lang$core$List$map,
+					_musilitar$musilitarapi$App$boardPointsByRowNumber(board),
+					A2(_elm_lang$core$List$range, 0, boardSize - 1)));
+		} else {
+			return A2(
+				_elm_lang$core$List$map,
+				_musilitar$musilitarapi$App$boardPointsToBoardHint,
+				A2(
+					_elm_lang$core$List$map,
+					_musilitar$musilitarapi$App$boardPointsByColumnNumber(board),
+					A2(_elm_lang$core$List$range, 0, boardSize - 1)));
 		}
 	});
 var _musilitar$musilitarapi$App$board = {
@@ -13084,6 +13167,8 @@ var _musilitar$musilitarapi$App$Model = F2(
 	function (a, b) {
 		return {boardSize: a, board: b};
 	});
+var _musilitar$musilitarapi$App$Vertical = {ctor: 'Vertical'};
+var _musilitar$musilitarapi$App$Horizontal = {ctor: 'Horizontal'};
 var _musilitar$musilitarapi$App$Guess = function (a) {
 	return {ctor: 'Guess', _0: a};
 };
@@ -13195,7 +13280,17 @@ var _musilitar$musilitarapi$App$view = function (model) {
 			_1: {
 				ctor: '::',
 				_0: _musilitar$musilitarapi$App$boardView(model.board),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: _musilitar$musilitarapi$App$boardHintView(
+						A2(_musilitar$musilitarapi$App$findBoardHintsByHintType, _musilitar$musilitarapi$App$Horizontal, model.board)),
+					_1: {
+						ctor: '::',
+						_0: _musilitar$musilitarapi$App$boardHintView(
+							A2(_musilitar$musilitarapi$App$findBoardHintsByHintType, _musilitar$musilitarapi$App$Vertical, model.board)),
+						_1: {ctor: '[]'}
+					}
+				}
 			}
 		});
 };
