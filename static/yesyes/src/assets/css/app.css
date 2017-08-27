@@ -21,8 +21,9 @@
     --height-panel: 7.5%;
     --top-board: calc(7.5% + ((92.5% - 80vmin) / 2));
     --right-board: calc((100% - 80vmin) / 2);
-    --width-board: 80vmin;
-    --height-board: 80vmin;
+    --size-board: 80vmin;
+    --size-board-point: calc(0.125 * var(--size-board));
+    --size-board-hint: 4rem;
 
     /* Padding */
     --padding-default: 2rem;
@@ -81,17 +82,21 @@
     position: fixed;
     top: var(--top-board);
     right: var(--right-board);
-    width: var(--width-board);
-    height: var(--height-board);
+    width: var(--size-board);
+    height: var(--size-board);
     margin: 0 auto;
     background-color: var(--color-text-primary);
 }
 
 .board-point
 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 1;
     flex-basis: calc(12.5% - (2 * var(--border-width-default)));
     border: var(--border-width-default) solid var(--color-primary-text);
+    font-size: 1.5rem;
 }
 
 .board-point--correct
@@ -102,6 +107,47 @@
 .board-point--incorrect
 {
     background-color: var(--color-accent);
+}
+
+.board-hints
+{
+    position: fixed;
+}
+
+.board-hints--column
+{
+    top: calc(var(--top-board) - var(--size-board-hint));
+    right: var(--right-board);
+    width: var(--size-board);
+    height: var(--size-board-hint);
+}
+
+.board-hints--row
+{
+    top: var(--top-board);
+    right: calc(var(--right-board) + var(--size-board));
+    width: var(--size-board-hint);
+    height: var(--size-board);
+}
+
+.board-hint
+{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;;
+    font-size: var(--font-size-input);
+}
+
+.board-hints--column > .board-hint
+{
+    width: var(--size-board-point);
+    height: var(--size-board-hint);
+}
+
+.board-hints--row > .board-hint
+{
+    width: var(--size-board-hint);
+    height: var(--size-board-point);
 }
 
 .input 

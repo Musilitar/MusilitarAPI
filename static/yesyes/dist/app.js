@@ -12757,7 +12757,7 @@ var _elm_lang$svg$Svg_Attributes$accumulate = _elm_lang$virtual_dom$VirtualDom$a
 var _elm_lang$svg$Svg_Attributes$accelerate = _elm_lang$virtual_dom$VirtualDom$attribute('accelerate');
 var _elm_lang$svg$Svg_Attributes$accentHeight = _elm_lang$virtual_dom$VirtualDom$attribute('accent-height');
 
-var _musilitar$musilitarapi$Icon$clickableIcon = F2(
+var _musilitar$musilitarapi$Icon$clickableIconView = F2(
 	function (iconName, message) {
 		return A2(
 			_elm_lang$svg$Svg$svg,
@@ -12785,31 +12785,109 @@ var _musilitar$musilitarapi$Icon$clickableIcon = F2(
 			});
 	});
 
-var _musilitar$musilitarapi$App$hintView = function (hint) {
+var _musilitar$musilitarapi$Message$Guess = function (a) {
+	return {ctor: 'Guess', _0: a};
+};
+var _musilitar$musilitarapi$Message$Decrement = {ctor: 'Decrement'};
+var _musilitar$musilitarapi$Message$Increment = {ctor: 'Increment'};
+
+var _musilitar$musilitarapi$Board$hintView = function (hint) {
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('board-hint'),
+			_1: {ctor: '[]'}
+		},
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(hint),
 			_1: {ctor: '[]'}
 		});
 };
-var _musilitar$musilitarapi$App$boardHintView = function (boardHints) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$List$map,
-			_musilitar$musilitarapi$App$hintView,
+var _musilitar$musilitarapi$Board$boardHintView = F2(
+	function (boardHints, className) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'board-hints', _1: true},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: className, _1: true},
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			},
 			A2(
 				_elm_lang$core$List$map,
-				function (n) {
-					return _elm_lang$core$Basics$toString(n);
-				},
-				boardHints)));
+				_musilitar$musilitarapi$Board$hintView,
+				A2(
+					_elm_lang$core$List$map,
+					function (n) {
+						return _elm_lang$core$Basics$toString(n);
+					},
+					boardHints)));
+	});
+var _musilitar$musilitarapi$Board$boardPointView = function (boardPoint) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$classList(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'board-point', _1: true},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'board-point--pristine', _1: !boardPoint.isClicked},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'board-point--correct', _1: boardPoint.isClicked && boardPoint.isPoint},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'board-point--incorrect', _1: boardPoint.isClicked && (!boardPoint.isPoint)},
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(
+					_musilitar$musilitarapi$Message$Guess(
+						{ctor: '_Tuple2', _0: boardPoint.x, _1: boardPoint.y})),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_elm_lang$core$Basics$toString(boardPoint.x),
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						', ',
+						_elm_lang$core$Basics$toString(boardPoint.y)))),
+			_1: {ctor: '[]'}
+		});
 };
-var _musilitar$musilitarapi$App$updateBoardPointClicked = F2(
+var _musilitar$musilitarapi$Board$boardView = function (board) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('board'),
+			_1: {ctor: '[]'}
+		},
+		A2(_elm_lang$core$List$map, _musilitar$musilitarapi$Board$boardPointView, board));
+};
+var _musilitar$musilitarapi$Board$updateBoardPointClicked = F2(
 	function (coordinates, boardPoint) {
 		return (_elm_lang$core$Native_Utils.eq(
 			_elm_lang$core$Tuple$first(coordinates),
@@ -12819,30 +12897,7 @@ var _musilitar$musilitarapi$App$updateBoardPointClicked = F2(
 			boardPoint,
 			{isClicked: true}) : boardPoint;
 	});
-var _musilitar$musilitarapi$App$update = F2(
-	function (message, model) {
-		var _p0 = message;
-		switch (_p0.ctor) {
-			case 'Increment':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{boardSize: model.boardSize + 1});
-			case 'Decrement':
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{boardSize: model.boardSize - 1});
-			default:
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						board: A2(
-							_elm_lang$core$List$map,
-							_musilitar$musilitarapi$App$updateBoardPointClicked(_p0._0),
-							model.board)
-					});
-		}
-	});
-var _musilitar$musilitarapi$App$boardPointsToBoardHint = function (boardPoints) {
+var _musilitar$musilitarapi$Board$boardPointsToBoardHint = function (boardPoints) {
 	return _elm_lang$core$List$length(
 		A2(
 			_elm_lang$core$List$filter,
@@ -12851,57 +12906,57 @@ var _musilitar$musilitarapi$App$boardPointsToBoardHint = function (boardPoints) 
 			},
 			boardPoints));
 };
-var _musilitar$musilitarapi$App$isNthColumn = F2(
+var _musilitar$musilitarapi$Board$isNthColumn = F2(
 	function (n, boardPoint) {
 		return _elm_lang$core$Native_Utils.eq(n, boardPoint.x);
 	});
-var _musilitar$musilitarapi$App$boardPointsByColumnNumber = F2(
+var _musilitar$musilitarapi$Board$boardPointsByColumnNumber = F2(
 	function (board, columnNumber) {
 		return A2(
 			_elm_lang$core$List$filter,
-			_musilitar$musilitarapi$App$isNthColumn(columnNumber),
+			_musilitar$musilitarapi$Board$isNthColumn(columnNumber),
 			board);
 	});
-var _musilitar$musilitarapi$App$isNthRow = F2(
+var _musilitar$musilitarapi$Board$isNthRow = F2(
 	function (n, boardPoint) {
 		return _elm_lang$core$Native_Utils.eq(n, boardPoint.y);
 	});
-var _musilitar$musilitarapi$App$boardPointsByRowNumber = F2(
+var _musilitar$musilitarapi$Board$boardPointsByRowNumber = F2(
 	function (board, rowNumber) {
 		return A2(
 			_elm_lang$core$List$filter,
-			_musilitar$musilitarapi$App$isNthRow(rowNumber),
+			_musilitar$musilitarapi$Board$isNthRow(rowNumber),
 			board);
 	});
-var _musilitar$musilitarapi$App$determineBoardSize = function (board) {
+var _musilitar$musilitarapi$Board$determineBoardSize = function (board) {
 	return _elm_lang$core$Basics$round(
 		_elm_lang$core$Basics$sqrt(
 			_elm_lang$core$Basics$toFloat(
 				_elm_lang$core$List$length(board))));
 };
-var _musilitar$musilitarapi$App$findBoardHintsByHintType = F2(
+var _musilitar$musilitarapi$Board$findBoardHintsByHintType = F2(
 	function (hintType, board) {
-		var boardSize = _musilitar$musilitarapi$App$determineBoardSize(board);
-		var _p1 = hintType;
-		if (_p1.ctor === 'Horizontal') {
+		var boardSize = _musilitar$musilitarapi$Board$determineBoardSize(board);
+		var _p0 = hintType;
+		if (_p0.ctor === 'Column') {
 			return A2(
 				_elm_lang$core$List$map,
-				_musilitar$musilitarapi$App$boardPointsToBoardHint,
+				_musilitar$musilitarapi$Board$boardPointsToBoardHint,
 				A2(
 					_elm_lang$core$List$map,
-					_musilitar$musilitarapi$App$boardPointsByRowNumber(board),
+					_musilitar$musilitarapi$Board$boardPointsByColumnNumber(board),
 					A2(_elm_lang$core$List$range, 0, boardSize - 1)));
 		} else {
 			return A2(
 				_elm_lang$core$List$map,
-				_musilitar$musilitarapi$App$boardPointsToBoardHint,
+				_musilitar$musilitarapi$Board$boardPointsToBoardHint,
 				A2(
 					_elm_lang$core$List$map,
-					_musilitar$musilitarapi$App$boardPointsByColumnNumber(board),
+					_musilitar$musilitarapi$Board$boardPointsByRowNumber(board),
 					A2(_elm_lang$core$List$range, 0, boardSize - 1)));
 		}
 	});
-var _musilitar$musilitarapi$App$board = {
+var _musilitar$musilitarapi$Board$board = {
 	ctor: '::',
 	_0: {x: 0, y: 0, isPoint: false, isClicked: false},
 	_1: {
@@ -13158,76 +13213,13 @@ var _musilitar$musilitarapi$App$board = {
 		}
 	}
 };
-var _musilitar$musilitarapi$App$model = {boardSize: 8, board: _musilitar$musilitarapi$App$board};
-var _musilitar$musilitarapi$App$BoardPoint = F4(
+var _musilitar$musilitarapi$Board$BoardPoint = F4(
 	function (a, b, c, d) {
 		return {x: a, y: b, isPoint: c, isClicked: d};
 	});
-var _musilitar$musilitarapi$App$Model = F2(
-	function (a, b) {
-		return {boardSize: a, board: b};
-	});
-var _musilitar$musilitarapi$App$Vertical = {ctor: 'Vertical'};
-var _musilitar$musilitarapi$App$Horizontal = {ctor: 'Horizontal'};
-var _musilitar$musilitarapi$App$Guess = function (a) {
-	return {ctor: 'Guess', _0: a};
-};
-var _musilitar$musilitarapi$App$boardPointView = function (boardPoint) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$classList(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'board-point', _1: true},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'board-point--pristine', _1: !boardPoint.isClicked},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'board-point--correct', _1: boardPoint.isClicked && boardPoint.isPoint},
-							_1: {
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'board-point--incorrect', _1: boardPoint.isClicked && (!boardPoint.isPoint)},
-								_1: {ctor: '[]'}
-							}
-						}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(
-					_musilitar$musilitarapi$App$Guess(
-						{ctor: '_Tuple2', _0: boardPoint.x, _1: boardPoint.y})),
-				_1: {ctor: '[]'}
-			}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				A2(
-					_elm_lang$core$Basics_ops['++'],
-					_elm_lang$core$Basics$toString(boardPoint.x),
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						', ',
-						_elm_lang$core$Basics$toString(boardPoint.y)))),
-			_1: {ctor: '[]'}
-		});
-};
-var _musilitar$musilitarapi$App$boardView = function (board) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('board'),
-			_1: {ctor: '[]'}
-		},
-		A2(_elm_lang$core$List$map, _musilitar$musilitarapi$App$boardPointView, board));
-};
-var _musilitar$musilitarapi$App$Decrement = {ctor: 'Decrement'};
-var _musilitar$musilitarapi$App$Increment = {ctor: 'Increment'};
+var _musilitar$musilitarapi$Board$Row = {ctor: 'Row'};
+var _musilitar$musilitarapi$Board$Column = {ctor: 'Column'};
+
 var _musilitar$musilitarapi$App$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -13252,7 +13244,7 @@ var _musilitar$musilitarapi$App$view = function (model) {
 						},
 						{
 							ctor: '::',
-							_0: A2(_musilitar$musilitarapi$Icon$clickableIcon, 'minus', _musilitar$musilitarapi$App$Decrement),
+							_0: A2(_musilitar$musilitarapi$Icon$clickableIconView, 'minus', _musilitar$musilitarapi$Message$Decrement),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -13270,7 +13262,7 @@ var _musilitar$musilitarapi$App$view = function (model) {
 									}),
 								_1: {
 									ctor: '::',
-									_0: A2(_musilitar$musilitarapi$Icon$clickableIcon, 'plus', _musilitar$musilitarapi$App$Increment),
+									_0: A2(_musilitar$musilitarapi$Icon$clickableIconView, 'plus', _musilitar$musilitarapi$Message$Increment),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -13279,28 +13271,60 @@ var _musilitar$musilitarapi$App$view = function (model) {
 				}),
 			_1: {
 				ctor: '::',
-				_0: _musilitar$musilitarapi$App$boardView(model.board),
+				_0: _musilitar$musilitarapi$Board$boardView(model.board),
 				_1: {
 					ctor: '::',
-					_0: _musilitar$musilitarapi$App$boardHintView(
-						A2(_musilitar$musilitarapi$App$findBoardHintsByHintType, _musilitar$musilitarapi$App$Horizontal, model.board)),
+					_0: A2(
+						_musilitar$musilitarapi$Board$boardHintView,
+						A2(_musilitar$musilitarapi$Board$findBoardHintsByHintType, _musilitar$musilitarapi$Board$Column, model.board),
+						'board-hints--column'),
 					_1: {
 						ctor: '::',
-						_0: _musilitar$musilitarapi$App$boardHintView(
-							A2(_musilitar$musilitarapi$App$findBoardHintsByHintType, _musilitar$musilitarapi$App$Vertical, model.board)),
+						_0: A2(
+							_musilitar$musilitarapi$Board$boardHintView,
+							A2(_musilitar$musilitarapi$Board$findBoardHintsByHintType, _musilitar$musilitarapi$Board$Row, model.board),
+							'board-hints--row'),
 						_1: {ctor: '[]'}
 					}
 				}
 			}
 		});
 };
+var _musilitar$musilitarapi$App$update = F2(
+	function (message, model) {
+		var _p0 = message;
+		switch (_p0.ctor) {
+			case 'Increment':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{boardSize: model.boardSize + 1});
+			case 'Decrement':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{boardSize: model.boardSize - 1});
+			default:
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						board: A2(
+							_elm_lang$core$List$map,
+							_musilitar$musilitarapi$Board$updateBoardPointClicked(_p0._0),
+							model.board)
+					});
+		}
+	});
+var _musilitar$musilitarapi$App$model = {boardSize: 8, board: _musilitar$musilitarapi$Board$board};
 var _musilitar$musilitarapi$App$main = _elm_lang$html$Html$beginnerProgram(
 	{model: _musilitar$musilitarapi$App$model, view: _musilitar$musilitarapi$App$view, update: _musilitar$musilitarapi$App$update})();
+var _musilitar$musilitarapi$App$Model = F2(
+	function (a, b) {
+		return {boardSize: a, board: b};
+	});
 
 var Elm = {};
 Elm['App'] = Elm['App'] || {};
 if (typeof _musilitar$musilitarapi$App$main !== 'undefined') {
-    _musilitar$musilitarapi$App$main(Elm['App'], 'App', {"types":{"unions":{"App.Message":{"args":[],"tags":{"Decrement":[],"Guess":["( Int, Int )"],"Increment":[]}}},"aliases":{},"message":"App.Message"},"versions":{"elm":"0.18.0"}});
+    _musilitar$musilitarapi$App$main(Elm['App'], 'App', {"types":{"unions":{"Message.Message":{"args":[],"tags":{"Decrement":[],"Guess":["( Int, Int )"],"Increment":[]}}},"aliases":{},"message":"Message.Message"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])
