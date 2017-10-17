@@ -7,6 +7,6 @@ from subprocess import check_call
 def docs():
     """Trigger a deployment of the application"""
     check_call(["git", "--work-tree=/home/Musilitar/MusilitarAPI", "--git-dir=/home/Musilitar/MusilitarAPI/.git", "pull"])
-    check_call("pipenv", "run")
+    check_call(["pipenv", "run"])
     check_call(["touch", "/var/www/www_musilitar_org_wsgi.py"])
     return {"status": "deployed"}
