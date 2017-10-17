@@ -9,12 +9,14 @@ def static():
     path = os.path.join(os.path.dirname(__file__), "../../static")
     return (path,)
 
+
 @hug.get("/", output=hug.output_format.html)
 def home():
     """Serves the home application"""
     path = os.path.join(os.path.dirname(__file__), "../../static/home/index.html")
     with open(path) as file:
         return file.read()
+
 
 @hug.get("/yesyes", output=hug.output_format.html)
 def yesyes():
