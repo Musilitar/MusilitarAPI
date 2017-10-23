@@ -1,4 +1,3 @@
-"""Musilitar API - Serve"""
 import os.path
 import hug
 

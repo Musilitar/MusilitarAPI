@@ -1,4 +1,3 @@
-"""Musilitar API"""
 import hug
 
 from db import db
@@ -6,6 +5,7 @@ from db import db
 from doc import doc
 from deploy import deploy
 from serve import serve
+from auth import auth
 
 
 hug.API(__name__).http.output_format = hug.output_format.pretty_json
@@ -18,5 +18,4 @@ def startup(api):
 
 @hug.extend_api()
 def apis():
-    """Gather all APIs"""
-    return [doc, deploy, serve]
+    return [doc, deploy, serve, auth]

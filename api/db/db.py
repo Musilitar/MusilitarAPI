@@ -1,4 +1,3 @@
-"""Musilitar API - Database initialization"""
 import dataset
 
 
@@ -10,6 +9,7 @@ def initialize_database():
 
 
 def insert_api_keys():
+    database["api_keys"].drop()
     table = database["api_keys"]
 
     table.insert({"api_key": "be37fd3a-a070-4e44-815e-f430e1e5dfd2", "email": "musilitar@gmail.com"})

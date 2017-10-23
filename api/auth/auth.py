@@ -1,5 +1,5 @@
-"""MusilitarAPI - Authentication module"""
 from datetime import datetime, timezone, timedelta
+from falcon import HTTP_200, HTTP_400
 
 import hug
 import dataset
@@ -12,38 +12,42 @@ from config import SECRET_KEY
 database = dataset.connect("sqlite:///MusilitarAPI.db")
 
 
-@hug.cli()
+@hug.call("/authenticate", ["POST"], versions=1)
+def authenticate(body, response):
+    api_key = body["api_key"]
+    if api_key:
+        subject = authenticate_api_key(api_key)
+        if subject:
+            set_authorization_token(subject, response)
+            response.status = HTTP_200
+            return
+    response.status = HTTP_400
+
+
+def verify_authorization_token(request, response, module):
+    token = request.get_header("Authorization")
+    if token:
+        refresh_authorization_token(request, response)
+    return False
+
+
 def authenticate_api_key(api_key):
-    """
-    Authenticate an API key against our database
-    :param api_key:
-    :return: string
-    """
+    result = database["api_keys"].find_one(api_key=api_key)
 
-    result = database["api_key"].find_one(api_key=api_key)
-
-    if result is not None:
+    if result:
         return result["email"]
     else:
         return None
 
 
-@hug.cli()
 def encode_authorization_token(subject):
-    """
-    Encode the payload
-    :param subject:
-    :return: string
-    """
-
-    payload =
-    {
+    payload = {
         "iat": datetime.now(timezone.utc),
         "exp": datetime.now(timezone.utc) + timedelta(hours=1),
         "sub": subject
     }
-    token = jwt.encode
-    (
+    print(payload)
+    token = jwt.encode(
         payload,
         SECRET_KEY,
         algorithm="HS256"
@@ -52,17 +56,9 @@ def encode_authorization_token(subject):
     return token
 
 
-@hug.cli()
 def decode_authorization_token(authorization_token):
-    """
-    Decodes the authorization token
-    :param authorization_token:
-    :return: integer|string
-    """
-
-    payload = jwt.decode
-    (
-        authorization_token,
+    payload = jwt.decode(
+        exact_authorization_token(authorization_token),
         SECRET_KEY,
         algorithms="HS256"
     )
@@ -70,4 +66,42 @@ def decode_authorization_token(authorization_token):
     return payload
 
 
-api_key_authentication = hug.authentication.api_key(authenticate_api_key)
+def exact_authorization_token(authorization_token):
+    split_token = str.split(authorization_token)
+    exact_token = ""
+    if(len(split_token) == 2):
+        exact_token = split_token[1]
+    else:
+        exact_token = split_token
+
+    return exact_token
+
+
+def full_authorization_token(authorization_token):
+    return "Bearer " + authorization_token
+
+
+def refresh_authorization_token(request, response):
+    existing_token = request.get_header("Authorization")
+    if existing_token:
+        decoded_token = decode_authorization_token(existing_token)
+        if decoded_token:
+            timestamp = decoded_token["iat"]
+            issued_at = datetime.fromtimestamp(timestamp, timezone.utc)
+            subject = decoded_token["sub"]
+            if issued_at + timedelta(minutes=15) <= datetime.now(timezone.utc):
+                encoded_token = encode_authorization_token(subject)
+                new_token = full_authorization_token(encoded_token)
+                response.set_header("Authorization", new_token)
+                return True
+    return False
+
+
+def set_authorization_token(subject, response):
+    token = encode_authorization_token(subject)
+    if token:
+        full_token = full_authorization_token(token)
+        response.set_header("Authorization", full_token)
+        return True
+    return False
+
