@@ -12,7 +12,7 @@ hug.API(__name__).http.output_format = hug.output_format.pretty_json
 
 
 @hug.startup()
-def startup():
+def startup(api):
     db.initialize_database()
 
 
